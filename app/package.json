@@ -1,0 +1,24 @@
+{
+  "name": "hello-packer",
+  "version": "1.0.0",
+  "description": "dummy express app to make sure the image is provisioned correctly",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/grrizzly/packer-comparison.git"
+  },
+  "author": "Austin Montoya",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/grrizzly/packer-comparison/issues"
+  },
+  "homepage": "https://github.com/grrizzly/packer-comparison#readme",
+  "dependencies": {
+    "expres": "0.0.5",
+    "express": "^4.13.4"
+  }
+}
