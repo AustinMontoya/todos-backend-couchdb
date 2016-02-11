@@ -4,20 +4,22 @@ var express = require('express');
 var app = express();
 var cors = require('cors');
 var bodyParser = require('body-parser');
-var shortid = require('shortid');
 var db = require('./db');
 var Promise = require('bluebird').Promise;
+var config = require('./config');
+var url = require('url');
 
 app.use(cors());
 app.use(bodyParser.json());
 
 var apiRoot = '/';
 
-function wrap(res, fn) {
-  return fn().catch((err) => {
+function wrap(res, action) {
+  return action().catch((err) => {
     console.error(err);
     res.sendStatus(500);
     res.end();
+    throw err;
   });
 }
 
@@ -26,7 +28,7 @@ function formatTodo(todo) {
     title: todo.title,
     completed: todo.completed,
     order: todo.order,
-    url: 'http://localhost:3000/' + todo.id
+    url: url.resolve(config.serviceUrlBase, todo.id)
   }
 }
 
@@ -62,7 +64,7 @@ app.post(apiRoot, (req, res) => {
 });
 
 app.patch(apiRoot + ':id', (req, res) => {
-  db.load(req.params.id)
+  wrap(res, () => db.load(req.params.id))
   .then((todo) => {
     if (!todo) {
       res.sendStatus(404);
@@ -103,6 +105,6 @@ app.delete(apiRoot, (req, res) => {
   .then(() => res.sendStatus(200));
 });
 
-app.listen(3000, function () {
-  console.log('Example app listening on port 3000!');
+app.listen(config.appPort, function () {
+  console.log(`Todos backend listening on port ${config.appPort}`);
 });
