@@ -18,9 +18,11 @@
   },
   "homepage": "https://github.com/grrizzly/packer-comparison#readme",
   "dependencies": {
+    "bluebird": "^3.2.2",
     "body-parser": "^1.15.0",
     "cors": "^2.7.1",
     "express": "^4.13.4",
+    "nano": "^6.2.0",
     "shortid": "^2.2.4"
   }
 }
