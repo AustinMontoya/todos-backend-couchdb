@@ -1,6 +1,8 @@
 var Promise = require('bluebird').Promise;
 
-var nano = require('nano')('http://todoService:password@localhost:5984');
+var config = require('./config');
+
+var nano = require('nano')(config.couchUrl);
 var todos = nano.use('todos');
 var shortid = require('shortid');
 
@@ -15,6 +17,8 @@ function load(id) {
       if (err.message === "not_found") {
         return null;
       }
+
+      throw err;
     });
 }
 
