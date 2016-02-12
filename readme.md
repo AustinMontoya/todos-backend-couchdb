@@ -1,43 +1,49 @@
-# Image Comparison
+# Todo Backend Couch
 
-## Prerequisites
+This project implements the Todo Backend spec using Express, CouchDB, and Nano.
 
-- [Packer](https://www.packer.io/intro/getting-started/setup.html)
+## Installation (local)
 
-## Digital Ocean
+1. Install and start [CouchDB](http://couchdb.apache.org/)
+1. Add a new admin user to Couch through the web UI (`todoService` / `password` are the default settings)
+1. Clone this repo
+1. Make sure you have Node >= 5.5 installed.
+1. `npm install`
+1. `node index.js`
 
-### Building the image
+## Installation (Vagrant)
 
-- Sign up for [Digital Ocean](https://www.digitalocean.com/) and generate an API token. (I put mine in `templates/do.token`, which is `.gitignore`d)
+Currently, we do not have an image for couch, so the app will always return a `500 Internal Server Error`. We will be adding a CouchDB instance with the correct networking settings to the Vagrant config in the near future.
 
-- Build the image
-
+1. Install [Packer](https://www.packer.io/intro/getting-started/setup.html)
+2. Install [Vagrant](https://www.vagrantup.com/docs/installation/)
+3. Clone this repo
+4. Build the image:
 ```shell
-cd templates
-packer build \
-  -var "api_token=$(cat do.token)" \
-  ubuntu-14.04.3-digital-ocean.json
+./create-image.sh
+```
+5. Start Vagrant:
+```shell
+vagrant up
 ```
 
-### Logging into the image
+## Startup Options
+This app uses the environment variables for runtime configuration:
 
-- Install [tugboat](https://github.com/pearkes/tugboat):
+##### `TODOS_COUCH_URL`
+URL for connecting to CouchDB. This must include the authentication parameters and port if it is non-80 (or 443 for SSL), e.g. `http://username:password@host:port`
 
-```shell
-gem install tugboat
-tugboat authorize
+##### `TODOS_APP_PORT`
+The port the app is configured to listen for HTTP requests on.
+
+##### `SERVICE_URL_BASE`
+The base URL for retrieving todos, e.g. `http://mypublicip.com`. This is meant to allow serviced requests to provide a URL that will hit a load balancer instead of the currently running instance.
+
+#### Example 
+
+```bash
+TODOS_COUCH_URL="https://todos:pswd@couch-instance-01" \
+TODOS_APP_PORT=9849 \
+SERVICE_URL_BASE="https://myservice.com/api/todos" \
+node index.js
 ```
-
-- Create a droplet:
-
-```shell
-tugboat create packer-node-test -i packer-node -r nyc1
-```
-
-- Reset the password on the droplet through the Digital Ocean UI. This will shut down the instance and email you a new root password.
-
-
-#### Todos
-
-- Figure out ssh login password issue
-- Why do you need to set the region again?
