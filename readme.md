@@ -4,7 +4,7 @@
 
 - [Packer](https://www.packer.io/intro/getting-started/setup.html)
 
-### Digital Ocean
+## Digital Ocean
 
 ### Building the image
 
