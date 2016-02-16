@@ -1,0 +1,46 @@
+{
+  "variables": {
+    "api_token": "",
+    "snapshot_name": "todos-service",
+    "app_version": "0.0.1"
+  },
+  "builders": [
+    {
+      "type": "docker",
+      "image": "ubuntu:trusty",
+      "commit": true
+    }
+  ],
+	"provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "apt-get update",
+        "apt-get install -y curl",
+        "mkdir /tmp/app"
+      ]
+    },
+    {
+      "type": "file",
+      "source": "./app.tar.gz",
+      "destination": "/tmp/app.tar.gz"
+    },
+    {
+      "type": "shell",
+      "scripts": [
+        "scripts/node.sh",
+        "scripts/app.sh"
+      ]
+    }
+  ],
+  "post-processors": [
+    [
+      {
+        "type": "docker-tag",
+        "repository": "grrizzly/todos-backend-node-server",
+        "tag": "{{user `app_version`}}"
+      },
+      "docker-push"
+    ]
+  ]
+}
