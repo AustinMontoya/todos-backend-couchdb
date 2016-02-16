@@ -11,6 +11,22 @@ This project implements the Todo Backend spec using Express, CouchDB, and Nano.
 1. `npm install`
 1. `node index.js`
 
+## Installation (Docker)
+
+Currently, we do not have docker-compose, so the app will  return a `500 Internal Server Error` unless you use the environment variables to specify the couch URL. We will be adding a docker-compose setup to make this easier in the future.
+
+1. Make sure you have docker installed and working properly.
+1. Make sure you have CouchDB installed and working properly
+1. In your terminal:
+```shell
+docker run \
+-p 3000:3000 \
+-e \
+"TODOS_COUCH_URL=http://<username>:<password>@<host>:<port>" \
+-it grrizzly/todos-backend-node-server /usr/local/bin/node
+```
+
+
 ## Installation (Vagrant)
 
 Currently, we do not have an image for couch, so the app will always return a `500 Internal Server Error`. We will be adding a CouchDB instance with the correct networking settings to the Vagrant config in the near future.
@@ -39,7 +55,7 @@ The port the app is configured to listen for HTTP requests on.
 ##### `SERVICE_URL_BASE`
 The base URL for retrieving todos, e.g. `http://mypublicip.com`. This is meant to allow serviced requests to provide a URL that will hit a load balancer instead of the currently running instance.
 
-#### Example 
+#### Example
 
 ```bash
 TODOS_COUCH_URL="https://todos:pswd@couch-instance-01" \
