@@ -32,6 +32,8 @@ function formatTodo(todo) {
   }
 }
 
+app.get('/favicon.ico', (req, res) => res.sendStatus(404))
+
 app.get('/:id', (req, res) => {
   wrap(res, () => db.load(req.params.id))
   .then(todo => {
@@ -77,7 +79,7 @@ app.patch(apiRoot + ':id', (req, res) => {
     }
 
     let completed = req.body.completed;
-    if (completed) {
+    if (completed !== undefined) {
       todo.completed = completed;
     }
 

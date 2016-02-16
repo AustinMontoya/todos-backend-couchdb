@@ -23,9 +23,18 @@ docker run \
 -p 3000:3000 \
 -e \
 "TODOS_COUCH_URL=http://<username>:<password>@<host>:<port>" \
--it grrizzly/todos-backend-node-server /usr/local/bin/node
+-e \
+"TODOS_URL_BASE=http://$(docker-machine ip default):3000" \
+-it grrizzly/todos-backend-node-server /usr/local/bin/node /opt/app/index.js
 ```
 
+#### Known Issues
+
+For some reason, the container does not respond to Ctrl-C when calling run with `-it`. Until there's time to investigate further, opening up a new terminal session and run the following to kill the container instance:
+
+```
+docker ps | grep "todos" | awk '{print $1;}' | xargs docker kill
+```
 
 ## Installation (Vagrant)
 
@@ -60,6 +69,6 @@ The base URL for retrieving todos, e.g. `http://mypublicip.com`. This is meant t
 ```bash
 TODOS_COUCH_URL="https://todos:pswd@couch-instance-01" \
 TODOS_APP_PORT=9849 \
-SERVICE_URL_BASE="https://myservice.com/api/todos" \
+TODOS_URL_BASE="https://myservice.com/api/todos" \
 node index.js
 ```

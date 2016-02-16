@@ -2,7 +2,7 @@
   "variables": {
     "api_token": "",
     "snapshot_name": "todos-service",
-    "app_version": "0.0.1"
+    "app_version": "latest"
   },
   "builders": [
     {
