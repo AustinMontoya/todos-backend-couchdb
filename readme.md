@@ -45,7 +45,7 @@ Currently, we do not have an image for couch, so the app will always return a `5
 3. Clone this repo
 4. Build the image:
 ```shell
-./create-image.sh
+./create-image.sh vbox
 ```
 5. Start Vagrant:
 ```shell
