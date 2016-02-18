@@ -1,0 +1,41 @@
+{
+  "variables": {
+    "api_token": "",
+    "snapshot_name": "todos-service",
+    "app_version": "0.0.0"
+  },
+  "builders": [
+    {
+      "type": "virtualbox-ovf",
+      "name": "todos-service-nano.virtualbox",
+      "source_path": "C:\\Users\\grrizzly\\.vagrant.d\\boxes\\mwrock-VAGRANTSLASH-WindowsNano\\0.2.0\\virtualbox\\box.ovf",
+      "communicator": "winrm",
+      "winrm_port": 5985,
+      "winrm_host": "localhost",
+      "winrm_username": "vagrant",
+      "winrm_password": "vagrant",
+      "guest_additions_mode": "disable",
+      "shutdown_command": "shutdown /s /c \"Packer shutdown\""
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "app.zip",
+      "destination": "c:\\app.zip"
+    },
+    {
+      "type": "powershell",
+      "inline": [
+        "Add-Type -A 'System.IO.Compression.FileSystem'",
+        "[IO.Compression.ZipFile]::ExtractToDirectory('app.zip', 'app')"
+      ]
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "vagrant",
+      "output": "todos-nano-virtualbox.box"
+    }
+  ]
+}

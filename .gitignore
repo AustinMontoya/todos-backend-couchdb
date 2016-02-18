@@ -3,3 +3,5 @@ output-todos-service.virtualbox/
 packer_cache/
 packer_todos-service.virtualbox_virtualbox.box
 .vagrant/
+app.zip
+*.box
