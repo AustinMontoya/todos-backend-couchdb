@@ -1,11 +1,12 @@
 {
-  "name": "hello-packer",
+  "name": "todos-backend",
   "version": "1.0.0",
   "description": "dummy express app to make sure the image is provisioned correctly",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node index.js",
+    "install-windows-service": "winser -i -s"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,7 @@
     "cors": "^2.7.1",
     "express": "^4.13.4",
     "nano": "^6.2.0",
-    "shortid": "^2.2.4"
+    "shortid": "^2.2.4",
+    "winser": "^1.0.2"
   }
 }

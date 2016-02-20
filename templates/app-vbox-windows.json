@@ -1,0 +1,55 @@
+{
+  "variables": {
+    "api_token": "",
+    "snapshot_name": "todos-service",
+    "app_version": "0.0.0",
+    "source_image": "{{env `HOME`}}/.vagrant.d/boxes/mwrock-VAGRANTSLASH-Windows2012R2/0.5.2/virtualbox/box.ovf"
+  },
+  "builders": [
+    {
+      "type": "virtualbox-ovf",
+      "name": "todos-service-ws2012r2.virtualbox",
+      "source_path": "{{user `source_image`}}",
+      "communicator": "winrm",
+      "winrm_port": 5985,
+      "winrm_host": "localhost",
+      "winrm_username": "vagrant",
+      "winrm_password": "vagrant",
+      "guest_additions_mode": "disable",
+      "shutdown_command": "shutdown /s /c \"Packer shutdown\""
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "app.zip",
+      "destination": "c:\\app.zip"
+    },
+    {
+      "type": "powershell",
+      "inline": "choco install nodejs.install -y -version 5.5.0"
+    },
+    {
+      "type": "powershell",
+      "inline": [
+        "Add-Type -A 'System.IO.Compression.FileSystem'",
+        "[IO.Compression.ZipFile]::ExtractToDirectory('C:\\app.zip', 'C:\\')"
+      ]
+    },
+    {
+      "type": "powershell",
+      "inline": [
+        "cd C:\\app",
+        "npm install",
+        "npm run-script install-windows-service",
+        "netsh advfirewall firewall add rule name=\"Todos Backend\" dir=in action=allow protocol=TCP localport=3000"
+      ]
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "vagrant",
+      "output": "todos-windows-virtualbox.box"
+    }
+  ]
+}

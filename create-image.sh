@@ -21,9 +21,12 @@ if [[ $BUILD_TYPE == 'vbox-nano' ]]; then
 
   echo "cleaning up runtime..."
   rm app/node.exe
+elif [[ $BUILD_TYPE == 'vbox-windows' ]]; then
+  echo "compressing app"
+  zip -x *node_modules* -r app.zip app/
 else
   echo "compressing app..."
   tar -czf ./app.tar.gz --exclude=node_modules/* app
 fi
 
-WINRMCP_DEBUG=1 PACKER_LOG=1 $GOPATH/bin/packer build -force templates/app-$BUILD_TYPE.json
+WINRMCP_DEBUG=1 PACKER_LOG=1 packer build -force templates/app-$BUILD_TYPE.json
