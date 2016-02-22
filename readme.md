@@ -13,28 +13,16 @@ This project implements the Todo Backend spec using Express, CouchDB, and Nano.
 
 ## Installation (Docker)
 
-Currently, we do not have docker-compose, so the app will  return a `500 Internal Server Error` unless you use the environment variables to specify the couch URL. We will be adding a docker-compose setup to make this easier in the future.
-
-1. Make sure you have docker installed and working properly.
-1. Make sure you have CouchDB installed and working properly
+1. Make sure you have [Docker](https://www.docker.com/) installed and working properly.
+1. Make sure you have (docker-compose)[https://docs.docker.com/compose/install/] installed and working properly.
 1. In your terminal:
 ```shell
-docker run \
--p 3000:3000 \
--e \
-"TODOS_COUCH_URL=http://<username>:<password>@<host>:<port>" \
--e \
-"TODOS_URL_BASE=http://$(docker-machine ip default):3000" \
--it grrizzly/todos-backend-node-server /usr/local/bin/node /opt/app/index.js
+git clone grrizzly/todos-backend-couchdb
+cd todos-backend-couchdb
+TODOS_SERVICE_IP=$(docker-machine ip default) docker-compose up
 ```
 
-#### Known Issues
-
-For some reason, the container does not respond to Ctrl-C when calling run with `-it`. Until there's time to investigate further, opening up a new terminal session and run the following to kill the container instance:
-
-```
-docker ps | grep "todos" | awk '{print $1;}' | xargs docker kill
-```
+You can verify your installation by using the [Todos Backend test client](http://todobackend.com/specs/index.html) and pointing it at your docker host's IP, port 3000.
 
 ## Installation (Vagrant)
 

@@ -1,0 +1,14 @@
+app:
+  image: grrizzly/todos-backend-node-server:latest
+  ports:
+    - "3000:3000"
+  links:
+    - couch
+  command: node /opt/app/index.js
+  environment:
+    - TODOS_COUCH_URL=http://couch:5984
+    - TODOS_URL_BASE=http://${TODOS_SERVICE_IP}:3000
+couch:
+  image: grrizzly/todos-backend-couch:latest
+  ports:
+    - "5984:5984"
