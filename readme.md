@@ -14,7 +14,7 @@ This project implements the Todo Backend spec using Express, CouchDB, and Nano.
 ## Installation (Docker)
 
 1. Make sure you have [Docker](https://www.docker.com/) installed and working properly.
-1. Make sure you have (docker-compose)[https://docs.docker.com/compose/install/] installed and working properly.
+1. Make sure you have [docker-compose](https://docs.docker.com/compose/install/) installed and working properly.
 1. In your terminal:
 ```shell
 git clone grrizzly/todos-backend-couchdb
