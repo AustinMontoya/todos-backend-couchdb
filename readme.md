@@ -60,3 +60,14 @@ TODOS_APP_PORT=9849 \
 TODOS_URL_BASE="https://myservice.com/api/todos" \
 node index.js
 ```
+## Gatling Performance Tests
+
+The [Todo backend] (http://todobackend.com/specs/) specs have been reproduced by using Gatling.
+
+1. Install [Gatling](http://gatling.io/#/download)
+2. Clone this repo
+3. Start the Todo Backend App via steps in readme
+4. Launch Gatling tests via your favorite command shell. 
+``` 
+. bin/gatling.sh -m -sf ~/navex/todos-backend-couchdb/perf/
+```
