@@ -67,7 +67,10 @@ The [Todo backend] (http://todobackend.com/specs/) specs have been reproduced by
 1. Install [Gatling](http://gatling.io/#/download)
 2. Clone this repo
 3. Start the Todo Backend App via steps in readme
-4. Launch Gatling tests via your favorite command shell. 
-``` 
-. bin/gatling.sh -m -sf ~/navex/todos-backend-couchdb/perf/
+4. Set GATLING_HOME and TODOBACK_HOME locations
+5. Run the perf.sh to execute tests in bash
 ```
+. $GATLING_HOME/bin/gatling.sh -m -sf $TODOBACK_HOME/perf/
+```
+**NOTE** Shell script sets JAVA_OPTS="-Dtargeturl=$(docker-machine ip default)" in order to get the correct target ip address
+
