@@ -68,7 +68,7 @@ The [Todo backend] (http://todobackend.com/specs/) specs have been reproduced by
 2. Clone this repo
 3. Start the Todo Backend App via steps in readme
 4. Set GATLING_HOME and TODOBACK_HOME locations
-5. Run the perf.sh to execute tests in bash
+5. Run the [performance.sh](https://github.com/grrizzly/todos-backend-couchdb/blob/master/scripts/performance.sh) to execute tests in bash
 ```
 . performance.sh
 ```
