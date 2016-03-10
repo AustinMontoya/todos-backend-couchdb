@@ -5,4 +5,4 @@ JAVA_OPTS="-Dtargeturl=$(docker-machine ip default)"
 printf "This docker-machine ip address %s\n" "$(docker-machine ip default)"
 printf  "33[33m Trying to call the gatling gun\n\n"
 
-. $GATLING_HOME/bin/gatling.sh -m -sf $TODOBACK_HOME/perf/
+. $GATLING_HOME/bin/gatling.sh -nr -m -sf $TODOBACK_HOME/perf/
