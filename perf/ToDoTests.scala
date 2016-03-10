@@ -1,19 +1,18 @@
 package todoback
 
 import scala.concurrent.duration._
+
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import io.gatling.jdbc.Predef._
+import todoback.Commons._
 
 class ToDoTests extends Simulation {
 
 	
     object PreReq {
-    	val headers_2 = Map("Origin" -> "http://todobackend.com")
-
-    	val preReqPost = exec(http("cleanup_delete")
-			.delete("/")
-			.headers(headers_2))
+    	
+    	val preReqPost = exec(deleteCleanup)
 			.exec(http("the api root responds to a POST with the todo which was posted to it")
 			.post("/")
 			.headers(headers_2)
@@ -21,9 +20,7 @@ class ToDoTests extends Simulation {
 			.check(jsonPath("$..title").is("a todo")))
 
 
-		val preReqDeleteRespond = exec(http("cleanup_delete")
-			.delete("/")
-			.headers(headers_2))
+		val preReqDeleteRespond = exec(deleteCleanup)
 			.exec(http("create_todo")
 			.post("/")
 			.headers(headers_2)
@@ -35,9 +32,7 @@ class ToDoTests extends Simulation {
 			.check(status.is(200),substring("title").count.is(0)))
 
 
-		val preReqDeleteJson = exec(http("cleanup_delete")
-			.delete("/")
-			.headers(headers_2))
+		val preReqDeleteJson = exec(deleteCleanup)
 			.exec(http("create_todo")
 			.post("/")
 			.headers(headers_2)
@@ -50,29 +45,22 @@ class ToDoTests extends Simulation {
     }
 
     object StoringNewTodos{
-    	val headers_2 = Map("Origin" -> "http://todobackend.com")
-
-    	val postRootUrl = exec(http("cleanup_delete")
-			.delete("/")
-			.headers(headers_2))
+    	
+    	val postRootUrl = exec(deleteCleanup)
 			.exec(http("adds a new todo to the list of todos at the root url")
 			.post("/")
 			.headers(headers_2)
 			.body(StringBody("""{"title":"walk the dog"}""")).asJSON
 			.check(jsonPath("$..title").is("walk the dog")))
 
-    	val todoNotCompleted = exec(http("cleanup_delete")
-			.delete("/")
-			.headers(headers_2))
+    	val todoNotCompleted = exec(deleteCleanup)
 			.exec(http("sets up a new todo as initially not completed")
 			.post("/")
 			.headers(headers_2)
 			.body(StringBody("""{"title":"blah"}""")).asJSON
 			.check(jsonPath("$..completed").is("false")))
 
-    	val todoHasNewUrl = exec(http("cleanup_delete")
-			.delete("/")
-			.headers(headers_2))
+    	val todoHasNewUrl = exec(deleteCleanup)
 			.exec(http("sets up a new todo as initially not completed")
 			.post("/")
 			.headers(headers_2)
@@ -81,11 +69,8 @@ class ToDoTests extends Simulation {
     }
 
     object WorkingExistingTodo{
-    	val headers_2 = Map("Origin" -> "http://todobackend.com")
-
-    	val navListTodo = exec(http("cleanup_delete")
-			.delete("/")
-			.headers(headers_2))
+    	
+    	val navListTodo = exec(deleteCleanup)
     		.exec(http("Post delete get")
 			.get("/")
 			.headers(headers_2))
@@ -111,9 +96,7 @@ class ToDoTests extends Simulation {
 			.headers(headers_2)
 			.check(status.is(200),jsonPath("$..url").is("${todoUrl}")))
  		
- 		val patchTitle = exec(http("cleanup_delete")
-			.delete("/")
-			.headers(headers_2))
+ 		val patchTitle = exec(deleteCleanup)
 			.exec(http("create_todo")
 			.post("/")
 			.headers(headers_2)
@@ -129,9 +112,7 @@ class ToDoTests extends Simulation {
 			.body(StringBody("""{"title":"bathe the cat"}""")).asJSON
 			.check(status.is(200),jsonPath("$..title").is("bathe the cat")))
 
- 		val patchCompletedness = exec(http("cleanup_delete")
-			.delete("/")
-			.headers(headers_2))
+ 		val patchCompletedness = exec(deleteCleanup)
 			.exec(http("create_todo")
 			.post("/")
 			.headers(headers_2)
@@ -147,9 +128,7 @@ class ToDoTests extends Simulation {
 			.body(StringBody("""{"completed":"true"}""")).asJSON
 			.check(status.is(200),jsonPath("$..completed").is("true")))
 
- 		val patchPersistence = exec(http("cleanup_delete")
-			.delete("/")
-			.headers(headers_2))
+ 		val patchPersistence = exec(deleteCleanup)
 			.exec(http("create_todo")
 			.post("/")
 			.headers(headers_2)
@@ -169,9 +148,7 @@ class ToDoTests extends Simulation {
 			.headers(headers_2)
 			.check(status.is(200),jsonPath("$..completed").is("true"),jsonPath("$..title").is("bathe the cat")))			
 
-		val patchDelete = exec(http("cleanup_delete")
-			.delete("/")
-			.headers(headers_2))
+		val patchDelete = exec(deleteCleanup)
 			.exec(http("create_todo")
 			.post("/")
 			.headers(headers_2)
@@ -188,25 +165,15 @@ class ToDoTests extends Simulation {
     }
 
     object TrackingToDo{
-    	val headers_2 = Map("Origin" -> "http://todobackend.com")
 
-
- 		
- 		val todoOrder = exec(http("cleanup_delete")
-			.delete("/")
-			.headers(headers_2))
+ 		val todoOrder = exec(deleteCleanup)
 			.exec(http("can create a todo with an order field")
 			.post("/")
 			.headers(headers_2)
 			.body(StringBody("""{"order":523}""")).asJSON
 			.check(status.is(200),jsonPath("$..order").is("523")))
 
-
-
- 		val changeOrder = exec(http("cleanup_delete")
-			.delete("/")
-			.headers(headers_2))
- 		.pause(1 seconds)
+ 		val changeOrder = exec(deleteCleanup)
 			.exec(http("create_todo")
 			.post("/")
 			.headers(headers_2)
@@ -228,14 +195,6 @@ class ToDoTests extends Simulation {
 		
     }
 
-    val httpProtocol = http
-		.baseURL("http://192.168.99.100:3000")
-		.acceptHeader("text/html,application/xhtml+xml,application/xml,application/json;q=0.9,*/*;q=0.8") // Here are the common headers
-		.doNotTrackHeader("1")
-		.acceptLanguageHeader("en-US,en;q=0.5")
-		.acceptEncodingHeader("gzip, deflate")
-		.userAgentHeader("Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0")
-		.inferHtmlResources()
 
     val preReqTests = scenario("preReqTests").exec(PreReq.preReqPost, PreReq.preReqDeleteRespond, PreReq.preReqDeleteJson)
     val storeTodoTests = scenario("storeTodoTests").exec(StoringNewTodos.postRootUrl, StoringNewTodos.todoNotCompleted, StoringNewTodos.todoHasNewUrl)
