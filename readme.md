@@ -70,7 +70,7 @@ The [Todo backend] (http://todobackend.com/specs/) specs have been reproduced by
 4. Set GATLING_HOME and TODOBACK_HOME locations
 5. Run the perf.sh to execute tests in bash
 ```
-. $GATLING_HOME/bin/gatling.sh -m -sf $TODOBACK_HOME/perf/
+. performance.sh
 ```
 **NOTE** Shell script sets JAVA_OPTS="-Dtargeturl=$(docker-machine ip default)" in order to get the correct target ip address
 
