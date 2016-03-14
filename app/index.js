@@ -5,19 +5,17 @@ var app = express();
 var cors = require('cors');
 var bodyParser = require('body-parser');
 
-const appPort = require('./config').appPort;
+const appPort = require('./lib/config').appPort;
 
-const getTodo = require('./handlers/get-todo');
-const listTodos = require('./handlers/list-todos');
-const clearTodos = require('./handlers/clear-todos');
-const createTodo = require('./handlers/create-todo');
-const updateTodo = require('./handlers/update-todo');
-const deleteTodo = require('./handlers/delete-todo');
+const getTodo = require('./lib/handlers/get-todo');
+const listTodos = require('./lib/handlers/list-todos');
+const clearTodos = require('./lib/handlers/clear-todos');
+const createTodo = require('./lib/handlers/create-todo');
+const updateTodo = require('./lib/handlers/update-todo');
+const deleteTodo = require('./lib/handlers/delete-todo');
 
 app.use(cors());
 app.use(bodyParser.json());
-
-var apiRoot = '/';
 
 app.get('/favicon.ico', (req, res) => res.sendStatus(404))
 
