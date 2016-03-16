@@ -1,3 +1,5 @@
+<img src="https://travis-ci.org/grrizzly/todos-backend-couchdb.svg?branch=master" />
+
 # Todo Backend Couch
 
 This project implements the Todo Backend spec using Express, CouchDB, and Nano.
@@ -73,4 +75,3 @@ The [Todo backend] (http://todobackend.com/specs/) specs have been reproduced by
 . performance.sh
 ```
 **NOTE** Shell script sets JAVA_OPTS="-Dtargeturl=$(docker-machine ip default)" in order to get the correct target ip address
-
