@@ -4,7 +4,7 @@
   "description": "dummy express app to make sure the image is provisioned correctly",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node_modules/.bin/mocha",
     "start": "node index.js",
     "install-windows-service": "winser -i -s"
   },
@@ -26,5 +26,10 @@
     "nano": "^6.2.0",
     "shortid": "^2.2.4",
     "winser": "^1.0.2"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-as-promised": "^5.2.0",
+    "mocha": "^2.4.5"
   }
 }
