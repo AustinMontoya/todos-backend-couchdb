@@ -2,9 +2,8 @@
 
 const Promise = require('bluebird').Promise;
 const wrap = require('../utils').wrap;
-const db = require('../db');
 
-function clearTodos(req, res) {
+function clearTodos(db, _req, res) {
   var deletions = wrap(res, db.getAll)
                  .then((items) => items.map((item) => db.delete(item)));
 

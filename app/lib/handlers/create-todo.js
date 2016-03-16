@@ -1,12 +1,10 @@
 "use strict";
 
 const utils = require('../utils');
-const db = require('../db');
-
 const formatTodo = utils.formatTodo;
 const wrap = utils.wrap;
 
-function createTodo(req, res) {
+function createTodo(db, req, res) {
   let title = req.body.title;
   let order = req.body.order || 0;
   let todo = {
@@ -16,9 +14,7 @@ function createTodo(req, res) {
   };
 
   return wrap(res, () => db.save(todo))
-  .then((todo) => {
-    res.json(formatTodo(todo));
-  })
+        .then((todo) => res.json(formatTodo(todo)));
 }
 
 module.exports = createTodo;
