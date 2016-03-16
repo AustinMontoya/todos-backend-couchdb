@@ -9,6 +9,7 @@ describe('Getting a todo', () => {
   it('Fetches the todo', (done) => {
     const existingTodo = {
       id: 'abc',
+      playerId: '123',
       title: 'something',
       completed: true,
       order: 2
@@ -22,6 +23,7 @@ describe('Getting a todo', () => {
     .then(() => {
       res.json.args[0][0].should.deep.equal({
         title: 'something',
+        playerId: '123',
         completed: true,
         order: 2,
         url: 'http://localhost:3000/abc'

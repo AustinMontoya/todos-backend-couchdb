@@ -15,6 +15,7 @@ function wrap(res, action) {
 function formatTodo(todo) {
   return {
     title: todo.title,
+    playerId: todo.playerId,
     completed: todo.completed,
     order: todo.order,
     url: url.resolve(config.serviceUrlBase, todo.id)

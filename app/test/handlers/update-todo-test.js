@@ -107,5 +107,5 @@ describe('Updating a todo', () => {
       err.message.should.equal('Not found')
       done();
     });
-  })
+  });
 });

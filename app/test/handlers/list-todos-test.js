@@ -6,8 +6,20 @@ const listTodos = require('../../lib/handlers/list-todos');
 describe('Listing all todos', () => {
   var fakeDb;
   const dbResults = [
-    { id: '123', title: 'test1', completed: false, order: 0 },
-    { id: '456', title: 'test2', completed: true, order: 1 }
+    {
+      id: '123',
+      playerId: 'abc',
+      title: 'test1',
+      completed: false,
+      order: 0
+    },
+    {
+      id: '456',
+      playerId: 'def',
+      title: 'test2',
+      completed: true,
+      order: 1
+    }
   ]
 
   beforeEach(() => fakeDb = {
@@ -21,6 +33,7 @@ describe('Listing all todos', () => {
       let response = res.json.args[0][0];
       response[0].should.deep.equal({
         title: 'test1',
+        playerId: 'abc',
         completed: false,
         order: 0,
         url: 'http://localhost:3000/123'
@@ -28,6 +41,7 @@ describe('Listing all todos', () => {
 
       response[1].should.deep.equal({
         title: 'test2',
+        playerId: 'def',
         completed: true,
         order: 1,
         url: 'http://localhost:3000/456'
