@@ -2,7 +2,9 @@
 
 # Todo Backend Couch
 
-This project implements the Todo Backend spec using Express, CouchDB, and Nano.
+This project implements an form of the Todo Backend spec that also integrates the concept of a user. Built with Express, CouchDB, and Nano.
+
+Note that this project no longer complies with the original spec, as a break was needed to enforce the presence of a user id when creating a new todo. However, it does have its own set of unit tests, as well as Gatling perf tests that cover most, if not all, of the original spec.
 
 ## Installation (local)
 
