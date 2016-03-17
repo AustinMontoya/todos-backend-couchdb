@@ -4,14 +4,14 @@ const sinon = require('sinon');
 const updateTodo = require('../../lib/handlers/update-todo');
 
 describe('Updating a todo', () => {
-  var fakeDb;
-  var res;
+  var fakeDb, res, fakeClient;
 
   beforeEach(() => {
     fakeDb = {
       save: (obj) => obj,
       load: () => Promise.resolve({
         id: 'abc',
+        playerId: '123',
         title: 'test title',
         order: 3,
         completed: false
@@ -19,6 +19,9 @@ describe('Updating a todo', () => {
     };
 
     sinon.stub(fakeDb, "save", (obj) => Promise.resolve(obj));
+
+    fakeClient = { todoCompleted: () => {} };
+    sinon.stub(fakeClient, "todoCompleted").returns(Promise.resolve())
 
     res = {
       json: sinon.spy(),
@@ -37,11 +40,12 @@ describe('Updating a todo', () => {
       }
     };
 
-    updateTodo(fakeDb, req, res).then(() => {
+    updateTodo(fakeDb, req, res, fakeClient).then(() => {
       const savedObject = fakeDb.save.args[0][0];
 
       savedObject.should.deep.equal({
         id: 'abc',
+        playerId: '123',
         title: 'new title',
         completed: true,
         order: 1
@@ -61,7 +65,7 @@ describe('Updating a todo', () => {
       body: {}
     };
 
-    updateTodo(fakeDb, req, res).then(() => {
+    updateTodo(fakeDb, req, res, fakeClient).then(() => {
       const savedObject = fakeDb.save.args[0][0];
       savedObject.title.should.equal('test title');
       savedObject.order.should.equal(3);
@@ -84,7 +88,7 @@ describe('Updating a todo', () => {
       body: { completed: false }
     };
 
-    updateTodo(fakeDb, req, res).then(() => {
+    updateTodo(fakeDb, req, res, fakeClient).then(() => {
       const savedObject = fakeDb.save.args[0][0];
       savedObject.completed.should.be.false;
 
@@ -100,7 +104,7 @@ describe('Updating a todo', () => {
     fakeDb.load = () => Promise.resolve(null);
     const req = { params: { id: 'def' } };
 
-    updateTodo(fakeDb, req, res).then(() => {
+    updateTodo(fakeDb, req, res, fakeClient).then(() => {
       throw Error("Should not succeed");
     }).catch((err) => {
       res.sendStatus.calledWith(404).should.be.true;
@@ -108,4 +112,44 @@ describe('Updating a todo', () => {
       done();
     });
   });
+
+  it('Calls the player service if a todo is completed', (done) => {
+    const req = {
+      params: { id: 'abc' },
+      body:  { completed: true }
+    };
+
+    updateTodo(fakeDb, req, res, fakeClient).then(() => {
+      fakeClient
+        .todoCompleted
+        .calledWith('123', 'abc')
+        .should.be.true;
+
+      done();
+    }).catch(done);
+  });
+
+  it('Does not call the player service if the todo was already completed',
+    (done) => {
+      fakeDb.load = () => Promise.resolve({
+        id: 'abc',
+        playerId: '123',
+        title: 'test title',
+        order: 3,
+        completed: true
+      });
+
+      const req = {
+        params: { id: 'abc' },
+        body:  { completed: true }
+      };
+
+      updateTodo(fakeDb, req, res, fakeClient).then(() => {
+        fakeClient
+          .todoCompleted.called
+          .should.be.false;
+
+        done();
+      }).catch(done);
+  })
 });

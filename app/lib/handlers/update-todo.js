@@ -4,12 +4,18 @@ const utils = require('../utils');
 const formatTodo = utils.formatTodo;
 const wrap = utils.wrap;
 
-function updateTodo(db, req, res) {
+module.exports = function updateTodo(db, req, res, playerClient) {
+  let wasAlreadyComplete = false;
+
   return wrap(res, () => db.load(req.params.id))
-  .then((todo) => {
+  .then(todo => {
     if (!todo) {
       res.sendStatus(404);
       throw new Error("Not found");
+    }
+
+    if (todo.completed) {
+      wasAlreadyComplete = true;
     }
 
     let title = req.body.title;
@@ -29,8 +35,12 @@ function updateTodo(db, req, res) {
 
     return db.save(todo);
   })
-  .then(todo => res.json(formatTodo(todo)));
+  .then(todo => wrap(res, () =>
+    !todo.completed || wasAlreadyComplete
+      ? Promise.resolve(todo)
+      : playerClient
+        .todoCompleted(todo.playerId, todo.id)
+        .then(() => todo)))
+  .then(todo =>
+    res.json(formatTodo(todo)));
 }
-
-
-module.exports = updateTodo;

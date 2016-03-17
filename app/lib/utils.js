@@ -3,13 +3,23 @@
 const url = require('url');
 const config = require('./config');
 
+function handleFailure(err, res) {
+  res.sendStatus(500);
+  res.end();
+  throw err;
+}
+
 function wrap(res, action) {
-  return action().catch((err) => {
-    console.error(err);
-    res.sendStatus(500);
-    res.end();
-    throw err;
-  });
+  var result;
+
+  try {
+    result = action();
+    return result.catch((err) =>
+      handleFailure(err, res)
+    );
+  } catch(err) {
+    handleFailure(err, res);
+  }
 }
 
 function formatTodo(todo) {
