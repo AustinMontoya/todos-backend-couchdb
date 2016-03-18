@@ -1,7 +1,7 @@
 "use strict";
 
 const sinon = require('sinon');
-const clearTodos = require('../../lib/handlers/clear-todos');
+const clearTodos = require('../../../lib/handlers/clear-todos');
 
 describe('Clearing all todos', () => {
   var fakeDb;

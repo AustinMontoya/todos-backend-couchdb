@@ -1,7 +1,7 @@
 "use strict";
 
 const sinon = require('sinon');
-const deleteTodo = require('../../lib/handlers/info');
+const deleteTodo = require('../../../lib/handlers/info');
 
 describe('Fetching server info', () => {
   it('Provides the artifactId from the config', () => {

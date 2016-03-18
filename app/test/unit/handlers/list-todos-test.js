@@ -1,7 +1,7 @@
 "use strict";
 
 const sinon = require('sinon');
-const listTodos = require('../../lib/handlers/list-todos');
+const listTodos = require('../../../lib/handlers/list-todos');
 
 describe('Listing all todos', () => {
   var fakeDb;

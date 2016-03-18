@@ -1,7 +1,7 @@
 "use strict";
 
 const sinon = require('sinon');
-const createTodo = require('../../lib/handlers/create-todo');
+const createTodo = require('../../../lib/handlers/create-todo');
 
 describe('Creating a todo', () => {
   var fakeDb;

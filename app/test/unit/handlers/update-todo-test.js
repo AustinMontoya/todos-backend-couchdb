@@ -1,7 +1,7 @@
 "use strict";
 
 const sinon = require('sinon');
-const updateTodo = require('../../lib/handlers/update-todo');
+const updateTodo = require('../../../lib/handlers/update-todo');
 
 describe('Updating a todo', () => {
   var fakeDb, res, fakeClient;

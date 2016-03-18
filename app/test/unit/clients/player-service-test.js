@@ -1,7 +1,7 @@
 "use strict";
 
 const sinon = require('sinon');
-const playerService = require('../../lib/clients/player-service');
+const playerService = require('../../../lib/clients/player-service');
 
 describe('PlayerService Client', function () {
   var client, postArgs;

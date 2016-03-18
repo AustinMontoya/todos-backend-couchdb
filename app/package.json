@@ -4,7 +4,10 @@
   "description": "dummy express app to make sure the image is provisioned correctly",
   "main": "index.js",
   "scripts": {
-    "test": "node_modules/.bin/mocha",
+    "test": "npm run test-unit",
+    "test-unit": "node_modules/.bin/mocha test/unit",
+    "test-e2e": "node_modules/.bin/mocha test/e2e",
+    "test-all": "node_modules/.bin/mocha",
     "start": "node index.js",
     "install-windows-service": "winser -i -s"
   },
@@ -31,6 +34,7 @@
     "chai": "^3.5.0",
     "chai-as-promised": "^5.2.0",
     "mocha": "^2.4.5",
-    "sinon": "^1.17.3"
+    "sinon": "^1.17.3",
+    "supertest": "^1.2.0"
   }
 }
